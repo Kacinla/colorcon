@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美瞳收藏庫</title>
+    <style>
+        :root {
+            --bg-color: #F7F9F4;          /* 背景色：極淺清新綠白 */
+            --card-bg: #ffffff;           /* 卡片底色：純白 */
+            --text-main: #2B4D31;         /* 主要文字：深綠色 */
+            --text-sub: #477724;          /* 次要文字：翠綠色 */
+            --accent-primary: #477724;    /* 重點按鈕色：翠綠色 */
+            --accent-hover: #2B4D31;      /* 按鈕Hover：深綠色 */
+            --border-color: #83A152;      /* 邊框色：柔和綠 */
+            --shadow: 0 10px 25px -5px rgba(43, 77, 49, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        /* 卡片區塊 */
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #A9D7E6;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background-color: #F7F9F4;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(71, 119, 36, 0.3);
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 6px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 跨裝置同步按鈕區 */
+        .sync-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .sync-btn {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .sync-btn:hover {
+            background-color: #F7F9F4;
+        }
+
+        /* 清單區塊 */
+        .lens-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lens-item {
+            background-color: var(--card-bg);
+            border: 1px solid #A9D7E6;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: 0 4px 12px rgba(43, 77, 49, 0.03);
+            transition: transform 0.2s;
+        }
+
+        .lens-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .lens-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+            padding-right: 12px;
+            word-break: break-all;
+        }
+
+        .lens-header-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lens-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            background-color: #F3E864;
+            color: #2B4D31;
+        }
+
+        .lens-meta {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .tag-pill {
+            background-color: #F7F9F4;
+            border: 1px solid #83A152;
+            padding: 1px 6px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .rating-display {
+            color: #F1B00E;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-shadow: 0 0 1px rgba(0,0,0,0.1);
+        }
+
+        .lens-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 6px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .icon-btn:hover {
+            background-color: #F7F9F4;
+        }
+
+        .empty-hint {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            padding: 24px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            border: 1px dashed #83A152;
+        }
+
+        footer {
+            margin-top: 32px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>美瞳收藏庫</h1>
+        </header>
+
+        <!-- 跨裝置同步工具列 -->
+        <div class="sync-box">
+            <button class="sync-btn" onclick="exportData()">📤 匯出資料（備份）</button>
+            <button class="sync-btn" onclick="importData()">📥 匯入資料（同步）</button>
+        </div>
+
+        <!-- 新增美瞳表單 -->
+        <div class="card">
+            <h2>新增美瞳記錄</h2>
+            <form id="lensForm" onsubmit="addLens(event)">
+                <div class="form-group">
+                    <label>品牌名稱</label>
+                    <input type="text" id="lensBrand" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>款式 / 系列名稱</label>
+                    <input type="text" id="lensName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>顏色選擇</label>
+                    <select id="lensColor" class="form-select">
+                        <option value="棕色系">棕色系 (Brown)</option>
+                        <option value="灰棕/亞麻棕">灰棕 / 亞麻棕</option>
+                        <option value="灰色系">灰色系 (Gray)</option>
+                        <option value="黑色系">黑色系 (Black)</option>
+                        <option value="自然黑茶色">自然黑茶色 (Natural)</option>
+                        <option value="茶/琥珀色">茶 / 琥珀色 (Amber)</option>
+                        <option value="粉色系">粉色系 (Pink)</option>
+                        <option value="紫色系">紫色系 (Purple)</option>
+                        <option value="粉紫色系">粉紫色系 (Pink-Purple)</option>
+                        <option value="紅棕/酒紅色">紅棕 / 酒紅色 (Wine/Red)</option>
+                        <option value="橄欖綠系">橄欖綠系 (Green)</option>
+                        <option value="霧藍色系">霧藍色系 (Blue)</option>
+                        <option value="混血金/淺亞麻">混血金 / 淺亞麻</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>高光 / 漸層設計選擇</label>
+                    <select id="lensHighlight" class="form-select">
+                        <option value="無高光/純色">無高光 / 純色漸層</option>
+                        <option value="月牙高光">月牙高光 (Crescent)</option>
+                        <option value="水光高光">水光高光 (Water-gloss)</option>
+                        <option value="環形高光">環形高光 (Ring/Halo)</option>
+                        <option value="兩段式高光">兩段式高光 (Two-stage)</option>
+                        <option value="三段式高光">三段式高光 (Three-stage)</option>
+                        <option value="細碎閃粉">細碎閃粉 / 星空感</option>
+                        <option value="漸層雙色">漸層雙色 (Two-tone)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>DIA (鏡片總直徑) 選擇</label>
+                    <select id="lensDia" class="form-select">
+                        <option value="13.8mm">13.8mm</option>
+                        <option value="14.0mm">14.0mm</option>
+                        <option value="14.1mm" selected>14.1mm</option>
+                        <option value="14.2mm">14.2mm</option>
+                        <option value="14.3mm">14.3mm</option>
+                        <option value="14.5mm">14.5mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>G.DIA (著色直徑) 選擇</label>
+                    <select id="lensGdia" class="form-select">
+                        <option value="11.9mm">11.9mm</option>
+                        <option value="12.0mm">12.0mm</option>
+                        <option value="12.1mm">12.1mm</option>
+                        <option value="12.2mm">12.2mm</option>
+                        <option value="12.3mm">12.3mm</option>
+                        <option value="12.4mm">12.4mm</option>
+                        <option value="12.5mm">12.5mm</option>
+                        <option value="12.6mm">12.6mm</option>
+                        <option value="12.7mm">12.7mm</option>
+                        <option value="12.8mm">12.8mm</option>
+                        <option value="12.9mm" selected>12.9mm</option>
+                        <option value="13.0mm">13.0mm</option>
+                        <option value="13.1mm">13.1mm</option>
+                        <option value="13.2mm">13.2mm</option>
+                        <option value="13.3mm">13.3mm</option>
+                        <option value="13.4mm">13.4mm</option>
+                        <option value="13.5mm">13.5mm</option>
+                        <option value="13.6mm">13.6mm</option>
+                        <option value="13.7mm">13.7mm</option>
+                        <option value="13.8mm">13.8mm</option>
+                        <option value="14.0mm">14.0mm</option>
+                        <option value="14.2mm">14.2mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>週期規格</label>
+                    <select id="lensSpec" class="form-select">
+                        <option value="日拋">日拋 (1 Day)</option>
+                        <option value="月拋">月拋 (1 Month)</option>
+                        <option value="雙週拋">雙週拋 (2 Weeks)</option>
+                        <option value="季拋/半年拋">季拋 / 半年拋</option>
+                        <option value="年拋">年拋 (1 Year)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否定軸</label>
+                    <select id="lensToric" class="form-select">
+                        <option value="非定軸">非定軸</option>
+                        <option value="定軸">定軸</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>材質選擇</label>
+                    <select id="lensMaterial" class="form-select">
+                        <option value="矽水凝膠" selected>矽水凝膠 (Silicone Hydrogel)</option>
+                        <option value="一般水膠">一般水膠 (Hydrogel)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>使用狀態</label>
+                    <select id="lensStatus" class="form-select">
+                        <option value="服役中">服役中</option>
+                        <option value="庫存中">庫存中</option>
+                        <option value="已用完">已用完</option>
+                        <option value="想回購">想回購</option>
+                        <option value="不再買">不再買</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>舒適度與顯色度評分 (0.5 到 5 分)</label>
+                    <select id="lensRating" class="form-select">
+                        <option value="5">5.0 分 (完美神鏡)</option>
+                        <option value="4.5">4.5 分 (非常舒適顯色)</option>
+                        <option value="4" selected>4.0 分 (好看好戴)</option>
+                        <option value="3.5">3.5 分 (表現不錯)</option>
+                        <option value="3">3.0 分 (普通)</option>
+                        <option value="2.5">2.5 分 (略有異物感)</option>
+                        <option value="2">2.0 分 (不太舒服)</option>
+                        <option value="1">1.0 分 (直接雷品)</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">加入美瞳庫 ✨</button>
+            </form>
+        </div>
+
+        <!-- 清單區塊 -->
+        <div class="card">
+            <h2>我的美瞳清單</h2>
+            <div id="lensListContainer" class="lens-list">
+                <!-- 動態生成 -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Lens Collection Tracker &bull; Mobile Friendly
+    </footer>
+
+    <script>
+        let items = JSON.parse(localStorage.getItem('lens_collection_nature_tone_data_v5')) || [];
+
+        function saveAndRender() {
+            localStorage.setItem('lens_collection_nature_tone_data_v5', JSON.stringify(items));
+            renderItems();
+        }
+
+        function renderItems() {
+            const container = document.getElementById('lensListContainer');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="empty-hint">目前沒有美瞳紀錄，趕快加入第一副吧！</div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const ratingText = `${Number(item.rating || 3).toFixed(1)} 分`;
+                const div = document.createElement('div');
+                div.className = 'lens-item';
+
+                div.innerHTML = `
+                    <div class="lens-info">
+                        <div class="lens-header-row">
+                            <span class="lens-title">${escapeHtml(item.brand)} - ${escapeHtml(item.name)}</span>
+                        </div>
+                        <div class="lens-meta">
+                            <span class="status-badge">${escapeHtml(item.status)}</span>
+                            <span class="rating-display">${ratingText}</span>
+                        </div>
+                        <div class="lens-meta">
+                            <span class="tag-pill">🎨 ${escapeHtml(item.color)}</span>
+                            <span class="tag-pill">✨ ${escapeHtml(item.highlight)}</span>
+                            <span class="tag-pill">⚪ DIA: ${escapeHtml(item.dia)}</span>
+                            <span class="tag-pill">🎯 G.DIA: ${escapeHtml(item.gdia)}</span>
+                            <span class="tag-pill">⏳ ${escapeHtml(item.spec)}</span>
+                            <span class="tag-pill">📐 ${escapeHtml(item.toric || '非定軸')}</span>
+                            <span class="tag-pill">💧 ${escapeHtml(item.material || '一般水膠')}</span>
+                        </div>
+                    </div>
+                    <div class="lens-actions">
+                        <button class="icon-btn" onclick="editItem(${item.id})" title="編輯資訊">✏️</button>
+                        <button class="icon-btn" onclick="deleteItem(${item.id})" title="刪除">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addLens(event) {
+            event.preventDefault();
+            const brandInput = document.getElementById('lensBrand');
+            const nameInput = document.getElementById('lensName');
+            const colorInput = document.getElementById('lensColor');
+            const highlightInput = document.getElementById('lensHighlight');
+            const diaInput = document.getElementById('lensDia');
+            const gdiaInput = document.getElementById('lensGdia');
+            const specInput = document.getElementById('lensSpec');
+            const toricInput = document.getElementById('lensToric');
+            const materialInput = document.getElementById('lensMaterial');
+            const statusInput = document.getElementById('lensStatus');
+            const ratingInput = document.getElementById('lensRating');
+
+            const newItem = {
+                id: Date.now(),
+                brand: brandInput.value.trim(),
+                name: nameInput.value.trim(),
+                color: colorInput.value,
+                highlight: highlightInput.value,
+                dia: diaInput.value,
+                gdia: gdiaInput.value,
+                spec: specInput.value,
+                toric: toricInput.value,
+                material: materialInput.value,
+                status: statusInput.value,
+                rating: Number(ratingInput.value)
+            };
+
+            items.unshift(newItem);
+            saveAndRender();
+
+            brandInput.value = '';
+            nameInput.value = '';
+        }
+
+        function editItem(id) {
+            const item = items.find(b => b.id === id);
+            if (!item) return;
+
+            const newBrand = prompt("修改品牌名稱：", item.brand);
+            if (newBrand === null) return;
+            const newName = prompt("修改款式/系列名稱：", item.name);
+            if (newName === null) return;
+            const newColor = prompt("修改顏色：", item.color);
+            if (newColor === null) return;
+            const newHighlight = prompt("修改高光設計：", item.highlight);
+            if (newHighlight === null) return;
+            const newDia = prompt("修改 DIA 直徑：", item.dia);
+            if (newDia === null) return;
+            const newGdia = prompt("修改 G.DIA 著色直徑：", item.gdia || "12.9mm");
+            if (newGdia === null) return;
+            const newRating = prompt("修改評分 (0.5 到 5)：", item.rating);
+            if (newRating === null) return;
+
+            item.brand = newBrand.trim() || item.brand;
+            item.name = newName.trim() || item.name;
+            item.color = newColor.trim() || item.color;
+            item.highlight = newHighlight.trim() || item.highlight;
+            item.dia = newDia.trim() || item.dia;
+            item.gdia = newGdia.trim() || item.gdia;
+            
+            let parsedRating = parseFloat(newRating);
+            if (!isNaN(parsedRating)) {
+                item.rating = Math.min(5, Math.max(0.5, parsedRating));
+            }
+
+            saveAndRender();
+        }
+
+        function deleteItem(id) {
+            if (confirm("確定要刪除這筆美瞳紀錄嗎？")) {
+                items = items.filter(b => b.id !== id);
+                saveAndRender();
+            }
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(items);
+            prompt("這是你的美瞳同步資料代碼，請複製它：", dataStr);
+        }
+
+        function importData() {
+            const dataStr = prompt("請貼上你在其他裝置複製的同步資料代碼：");
+            if (dataStr) {
+                try {
+                    const parsed = JSON.parse(dataStr);
+                    if (Array.isArray(parsed)) {
+                        items = parsed;
+                        saveAndRender();
+                        alert("同步成功！美瞳資料已更新 ✨");
+                    } else {
+                        alert("格式錯誤，請確認貼上的代碼是否正確。");
+                    }
+                } catch (e) {
+                    alert("解析失敗，請確認代碼內容。");
+                }
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        renderItems();
+    </script>
+</body>
+</html>
